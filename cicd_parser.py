@@ -16,14 +16,67 @@ def __getPassing(data):
 	
 def __getFailing(data):
 	return data['failed']
-
+def __printFailing(data):
+	failing = __getFailing(data)
+	
+	hasCrit = False
+	critAll = None 
+	critNew = None
+	hasHigh = False
+	highAll = None 
+	highNew = None
+	hasMed = False
+	medAll = None 
+	medNew = None
+	hasLow = False
+	lowAll = None 
+	lowNew = None
+	hasInfo = False
+	infoAll = None 
+	infoNew = None
+	for policy in failing:
+		if 'Critical' == policy['severity']:
+			critNew = policy['maxIntroduced']
+			critAll = policy['maxAllowed']
+			hasCrit = True
+		if 'High' == policy['severity']:
+			highNew = policy['maxIntroduced']
+			highAll = policy['maxAllowed']
+			hasHigh = True
+		if 'Medium' == policy['severity']:
+			medNew = policy['maxIntroduced']
+			medAll = policy['maxAllowed']
+			hasMed = True
+		if 'Low' == policy['severity']:
+			lowNew = policy['maxIntroduced']
+			lowAll = policy['maxAllowed']
+			hasLow = True
+		if 'Info' == policy['severity']:
+			infoNew = policy['maxIntroduced']
+			infoAll = policy['maxAllowed']
+			hasInfo = True
+	print(pfix + 'Failing policies:')
+	print(pfix + '\tSeverity\tMax Allowed\tMax Introduced')
+	print(pfix + '----------------------------------------------------')
+	if hasCrit:
+		print(pfix + '\tCritical\t' + str(critAll) + '\t\t' + str(critNew))
+	if hasHigh:
+		print(pfix + '\tHigh\t\t' + str(highAll) + '\t\t' + str(highNew))
+	if hasMed:
+		print(pfix + '\tMedium\t\t' + str(medAll) + '\t\t' + str(medNew))
+	if hasLow:
+		print(pfix + '\tLow\t\t' + str(lowAll) + '\t\t' + str(lowNew))
+	if hasInfo:
+		print(pfix + '\tInfo\t\t' + str(infoAll) + '\t\t' + str(infoNew))
+	
 def __printVulnerabilitySummary(data):
-	print(pfix + 'Vulnerability Summary:')
-	print(pfix + '\tCritical:' + str(data['newCriticalTotal']) + '/' + str(data['criticalTotal']) + ' (new/existing)')
-	print(pfix + '\tHigh:' + str(data['newHighTotal']) + '/' + str(data['highTotal']) + ' (new/existing)')
-	print(pfix + '\tMedium:' + str(data['newMediumTotal']) + '/' + str(data['mediumTotal']) + ' (new/existing)')
-	print(pfix + '\tLow:' + str(data['newLowTotal']) + '/' + str(data['lowTotal']) + ' (new/existing)')
-	print(pfix + '\tInformational:' + str(data['newInfoTotal']) + '/' + str(data['infoTotal']) + ' (new/existing)')
+	print(pfix + 'Vulnerability Summary:(new/existing)')
+	print(pfix + '----------------------------------------------------')
+	print(pfix + '\tCritical: \t' + str(data['newCriticalTotal']) + '/' + str(data['criticalTotal']))
+	print(pfix + '\tHigh: \t\t' + str(data['newHighTotal']) + '/' + str(data['highTotal']))
+	print(pfix + '\tMedium: \t' + str(data['newMediumTotal']) + '/' + str(data['mediumTotal']))
+	print(pfix + '\tLow: \t\t' + str(data['newLowTotal']) + '/' + str(data['lowTotal']))
+	print(pfix + '\tInformational: \t' + str(data['newInfoTotal']) + '/' + str(data['infoTotal']))
 	
 aOpts = ['-h', 'help', '-e']
 opts, args = getopt.getopt(sys.argv[1:],'he', aOpts)
@@ -48,13 +101,9 @@ for opt, arg in opts:
 			if status:
 				__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
 			else:
-				print(pfix + 'Failing policies:')
-				for policy in __getFailing(data):
-					print(pfix + '\t' + policy['severity'] + ' maxAllowed: ' + str(policy['maxAllowed']) + ' maxIntroduced: ' + str(policy['maxIntroduced']))
+				__printFailing(data)
 				
 				__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
 				sys.exit(2)
-			
-			
 	if opt in ('-h', '--help'):
 		print('help is not available, sorry...')
