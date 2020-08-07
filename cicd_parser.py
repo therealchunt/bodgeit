@@ -3,7 +3,7 @@ import os
 import getopt
 import json
 
-pfix = '[ThreadFix Policy Parser]'
+pfix = '[ThreadFix Policy Parser] '
 # supported extensions
 _supportedExtensions = ['.json']
 _filetype = None
@@ -18,7 +18,7 @@ def __getFailing(data):
 	return data['failed']
 
 def __printVulnerabilitySummary(data):
-	print(pfix, 'Vulnerability Summary:')
+	print(pfix + 'Vulnerability Summary:')
 	print(pfix, '\t', 'Critical:', str(data['newCriticalTotal']) + '/' + str(data['criticalTotal']), '(new/existing)')
 	print(pfix, '\t', 'High:', str(data['newHighTotal']) + '/' + str(data['highTotal']), '(new/existing)')
 	print(pfix, '\t', 'Medium:', str(data['newMediumTotal']) + '/' + str(data['mediumTotal']), '(new/existing)')
@@ -46,13 +46,15 @@ for opt, arg in opts:
 			print(pfix, 'Application Status:', __getOverallStatus(data))
 			
 			if status:
-				pass
+				__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
 			else:
-				print(pfix, 'Failing policies:')
+				print(pfix + 'Failing policies:')
 				for policy in __getFailing(data):
-					print(pfix, '\t', policy['severity'] + ' maxAllowed: ' + str(policy['maxAllowed']) + ' maxIntroduced: ' + str(policy['maxIntroduced']))
+					print(pfix + '\t' + policy['severity'] + ' maxAllowed: ' + str(policy['maxAllowed']) + ' maxIntroduced: ' + str(policy['maxIntroduced']))
+				
+				__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
+				sys.exit(2)
 			
-			__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
 			
 	if opt in ('-h', '--help'):
 		print('help is not available, sorry...')
