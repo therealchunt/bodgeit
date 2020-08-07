@@ -3,7 +3,7 @@
 	<!-- This file contains all of the environment specific configuration, change it for your setup -->
     <property file="local.properties"/>
 	<dirname file="${ant.file}" property="bodgeit.home"/>
-
+	<mkdir dir="build/WEB-INF/classes"/>
 	<path id="java.classpath">
 		<fileset dir="root/WEB-INF/lib">
 			<include name="*.jar" />
