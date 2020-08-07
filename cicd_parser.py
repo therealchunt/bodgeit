@@ -43,7 +43,7 @@ for opt, arg in opts:
 		if data is not None:
 			data = data['object']
 			status = data['passing']
-			print(pfix, 'Application Status:', __getOverallStatus(data))
+			print(pfix + 'Application Status: ' + __getOverallStatus(data))
 			
 			if status:
 				__printVulnerabilitySummary(data['snapshot']['vulnerabilitySummary'])
