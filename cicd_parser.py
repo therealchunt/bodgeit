@@ -19,11 +19,11 @@ def __getFailing(data):
 
 def __printVulnerabilitySummary(data):
 	print(pfix + 'Vulnerability Summary:')
-	print(pfix, '\t', 'Critical:', str(data['newCriticalTotal']) + '/' + str(data['criticalTotal']), '(new/existing)')
-	print(pfix, '\t', 'High:', str(data['newHighTotal']) + '/' + str(data['highTotal']), '(new/existing)')
-	print(pfix, '\t', 'Medium:', str(data['newMediumTotal']) + '/' + str(data['mediumTotal']), '(new/existing)')
-	print(pfix, '\t', 'Low:', str(data['newLowTotal']) + '/' + str(data['lowTotal']), '(new/existing)')
-	print(pfix, '\t', 'Informational:', str(data['newInfoTotal']) + '/' + str(data['infoTotal']), '(new/existing)')
+	print(pfix + '\tCritical:' + str(data['newCriticalTotal']) + '/' + str(data['criticalTotal']) + ' (new/existing)')
+	print(pfix + '\tHigh:' + str(data['newHighTotal']) + '/' + str(data['highTotal']) + ' (new/existing)')
+	print(pfix + '\tMedium:' + str(data['newMediumTotal']) + '/' + str(data['mediumTotal']) + ' (new/existing)')
+	print(pfix + '\tLow:' + str(data['newLowTotal']) + '/' + str(data['lowTotal']) + ' (new/existing)')
+	print(pfix + '\tInformational:' + str(data['newInfoTotal']) + '/' + str(data['infoTotal']) + ' (new/existing)')
 	
 aOpts = ['-h', 'help', '-e']
 opts, args = getopt.getopt(sys.argv[1:],'he', aOpts)
